@@ -4,6 +4,26 @@ provider "aws" {
   region     = "ap-southeast-1"
 }
 
+variable "basic_auth_user" {
+  default     = "user"
+  description = "Basic Auth Username"
+}
+
+variable "basic_auth_password" {
+  default     = "secret"
+  description = "Basic Auth Password"
+}
+
+variable "acme_email" {
+  default     = "dev@vicoders.com"
+  description = "ACME email"
+}
+
+variable "cert_resolver" {
+  default     = "staging"
+  description = "ACME email"
+}
+
 variable "ssh_key_name" {
   default     = ""
   description = "Amazon AWS Key Pair Name"
@@ -48,7 +68,7 @@ resource "aws_instance" "web" {
 
   provisioner "remote-exec" {
     inline = [
-      "curl -sL https://raw.githubusercontent.com/vcdocker/vcrobot-server-setup/master/init.sh | sh"
+      "curl -sL https://raw.githubusercontent.com/vcdocker/vcrobot-server-setup/master/init.sh | sed -e 's/{{user}}/${var.basic_auth_user}/g' | sed -e 's/{{password}}/${var.basic_auth_password}/g' | sed -e 's/{{acme_email}}/${var.acme_email}/g'  | sed -e 's/{{cert_resolver}}/${var.cert_resolver}/g' | sh"
     ]
   }
 }

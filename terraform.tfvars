@@ -1,3 +1,7 @@
 ssh_key_name="your-aws-key-pair-name"
 instance_type="t3.nano"
 ami="ami-061eb2b23f9f8839c"
+basic_auth_user="user"
+basic_auth_password="secret"
+acme_email="dev@vicoders.com"
+cert_resolver="staging"

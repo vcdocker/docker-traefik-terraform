@@ -58,14 +58,14 @@ resource "aws_instance" "web" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo apt-get update",
-      "sudo apt-get install git",
       "sudo dd if=/dev/zero of=/swapfile bs=1G count=1",
       "chmod 600 /swapfile",
       "mkswap /swapfile",
       "swapon /swapfile",
       "swapon -s",
       "echo \"/swapfile swap swap defaults 0 0\" > /etc/fstab",
+      "sudo apt-get update",
+      "sudo apt-get install git",
       "curl -sL https://raw.githubusercontent.com/vcdocker/vcrobot-server-setup/master/install/docker/19.03.sh | sh",
       "sudo usermod -aG docker $USER",
       "sudo systemctl enable docker"

@@ -59,11 +59,11 @@ resource "aws_instance" "web" {
   provisioner "remote-exec" {
     inline = [
       "sudo dd if=/dev/zero of=/swapfile bs=1M count=1024",
-      "chmod 600 /swapfile",
-      "mkswap /swapfile",
-      "swapon /swapfile",
-      "swapon -s",
-      "echo \"/swapfile swap swap defaults 0 0\" > /etc/fstab",
+      "sudo chmod 600 /swapfile",
+      "sudo mkswap /swapfile",
+      "sudo swapon /swapfile",
+      "sudo swapon -s",
+      "echo \"/swapfile swap swap defaults 0 0\" > sudo tee -a /etc/fstab",
       "sudo apt-get update",
       "sudo apt-get install git",
       "curl -sL https://raw.githubusercontent.com/vcdocker/vcrobot-server-setup/master/install/docker/19.03.sh | sh",

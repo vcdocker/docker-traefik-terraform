@@ -58,7 +58,7 @@ resource "aws_instance" "web" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo dd if=/dev/zero of=/swapfile bs=1G count=1",
+      "sudo dd if=/dev/zero of=/swapfile bs=1M count=1024",
       "chmod 600 /swapfile",
       "mkswap /swapfile",
       "swapon /swapfile",

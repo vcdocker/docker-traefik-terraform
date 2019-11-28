@@ -3,15 +3,31 @@ provider "aws" {
   profile    = "default"
   region     = "ap-southeast-1"
 }
-resource "aws_key_pair" "example" {
-  key_name = "examplekey"
+
+variable "ssh_key_name" {
+  default     = ""
+  description = "Amazon AWS Key Pair Name"
+}
+
+variable "instance_type" {
+  default     = "t3.nano"
+  description = "Amazon AWS EC2 Instance Type"
+}
+
+variable "ami" {
+  default     = "ami-061eb2b23f9f8839c"
+  description = "Amazon AWS EC2 Image"
+}
+
+resource "aws_key_pair" "ssh_key" {
+  key_name = var.ssh_key_name
   public_key = file("./ssh/id_rsa.pub")
 }
 
 resource "aws_instance" "web" {
-  key_name = aws_key_pair.example.key_name
-  ami           = "ami-061eb2b23f9f8839c"
-  instance_type = "t3.nano"
+  key_name = var.ssh_key_name
+  ami           = var.ami
+  instance_type = var.instance_type
 
  connection {
     type     = "ssh"
